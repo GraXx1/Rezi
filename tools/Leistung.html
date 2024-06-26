@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berechnung Wärmestrom</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .form-container { 
+            flex: 1; 
+            padding: 20px; 
+            width: 100%;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button { 
+            padding: 10px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover { 
+            background-color: #45a049; 
+        }
+        .images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            width: 62.5%; /* 50% + 25% */
+        }
+        .images img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        h2 { 
+            text-align: center; 
+            color: #333;
+        }
+        .formula {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .result-section {
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        const spezifischeWaermekapazitaet = {
+            Wasser: 4.186, // kJ/(kg·°C)
+            Luft: 1.005 // kJ/(kg·°C)
+        };
+
+        function berechneFehlenderWert() {
+            const Q = parseFloat(document.getElementById('Q').value);
+            const m = parseFloat(document.getElementById('m').value);
+            const deltaT = parseFloat(document.getElementById('deltaT').value);
+            const medium = document.getElementById('medium').value;
+            const c = spezifischeWaermekapazitaet[medium];
+            let resultText = '';
+
+            if (!isNaN(Q) && !isNaN(deltaT) && isNaN(m)) {
+                const m_kg_s = Q / (c * deltaT); // Massenstrom in kg/s
+                const m_kg_h = m_kg_s * 3600; // Umrechnung von kg/s in kg/h
+                resultText = `Massenstrom (m): ${m_kg_h.toFixed(2)} kg/h`;
+            } else if (!isNaN(m) && !isNaN(deltaT) && isNaN(Q)) {
+                const m_kg_s = m / 3600; // Umrechnung von kg/h in kg/s
+                const Q = m_kg_s * c * deltaT;
+                resultText = `Wärmestrom (Q): ${Q.toFixed(2)} kW`;
+            } else if (!isNaN(Q) && !isNaN(m) && isNaN(deltaT)) {
+                const m_kg_s = m / 3600; // Umrechnung von kg/h in kg/s
+                const deltaT = Q / (m_kg_s * c);
+                resultText = `Temperaturdifferenz (ΔT): ${deltaT.toFixed(2)} °C`;
+            } else {
+                resultText = 'Bitte genau zwei Werte eingeben.';
+            }
+
+            document.getElementById('result').innerText = resultText;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="images">
+            <img src="https://i.ibb.co/TPct7Q1/DALL-E-2024-06-24-11-04-15-A-landscape-image-featuring-a-desk-with-a-calculator-architectural-bluepr.webp" alt="Wärmestrom Berechnung">
+        </div>
+        <div class="form-container">
+            <div class="formula">Q̇ = ṁ⋅c⋅ΔT</div>
+            <p>Geben Sie zwei von drei Werten in die Felder unten ein und wählen Sie das Medium aus. Klicken Sie dann auf "Fehlenden Wert berechnen", um den fehlenden Wert zu ermitteln:</p>
+            <ul>
+                <li><strong>Wärmestrom (Q) in kW</strong>: Der Wärmestrom, der übertragen wird.</li>
+                <li><strong>Massenstrom (m) in kg/h</strong>: Der Massenstrom des Mediums (z.B. Wasser), das durch das System fließt.</li>
+                <li><strong>Temperaturdifferenz (ΔT) in °C</strong>: Die Temperaturdifferenz zwischen Vorlauf und Rücklauf.</li>
+                <li><strong>Medium</strong>: Wählen Sie das Medium aus, für das die Berechnung durchgeführt werden soll.</li>
+            </ul>
+            <p>Stellen Sie sicher, dass genau zwei Werte eingegeben sind, damit der fehlende Wert korrekt berechnet werden kann.</p>
+
+            <label for="Q">Wärmestrom (Q) in kW:</label>
+            <input type="number" id="Q" step="0.01" placeholder="Q eingeben">
+
+            <label for="m">Massenstrom (m) in kg/h:</label>
+            <input type="number" id="m" step="0.01" placeholder="m eingeben">
+
+            <label for="deltaT">Temperaturdifferenz (ΔT) in °C:</label>
+            <input type="number" id="deltaT" step="0.01" placeholder="ΔT eingeben">
+
+            <label for="medium">Medium:</label>
+            <select id="medium">
+                <option value="Wasser">Wasser</option>
+                <option value="Luft">Luft</option>
+            </select>
+
+            <button onclick="berechneFehlenderWert()">Fehlenden Wert berechnen</button>
+            <div id="result" class="result-section"></div>
+        </div>
+    </div>
+</body>
+</html>
