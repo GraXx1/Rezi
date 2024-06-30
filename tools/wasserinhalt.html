@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasserinhalt Berechnung</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .form-container { 
+            flex: 1; 
+            padding: 20px; 
+            width: 100%;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button { 
+            padding: 10px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover { 
+            background-color: #45a049; 
+        }
+        .result-section {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .result-section p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+    <script>
+        function calculateWaterContent() {
+            const diameter = parseFloat(document.getElementById('diameter').value);
+            const length = parseFloat(document.getElementById('length').value);
+
+            if (isNaN(diameter) || isNaN(length)) {
+                alert("Bitte geben Sie gültige Werte ein.");
+                return;
+            }
+
+            const radius = (diameter / 1000) / 2; // Radius in Metern
+            const volume = Math.PI * Math.pow(radius, 2) * length; // Volumen in Kubikmetern
+            const volumeLiters = volume * 1000; // Umrechnung in Liter
+
+            document.getElementById('waterContent').textContent = `Wasserinhalt: ${volumeLiters.toFixed(2)} Liter`;
+
+            if (volumeLiters < 3) {
+                document.getElementById('icon').src = "https://banner2.cleanpng.com/20180330/cce/kisspng-check-mark-computer-icons-clip-art-green-tick-5abe6e2dae5689.4635117015224294857141.jpg"; // Grüner Pfeil
+                document.getElementById('icon').alt = "Unter 3 Liter";
+            } else {
+                document.getElementById('icon').src = "https://icon2.cleanpng.com/20190228/bre/kisspng-red-x-stock-photography-image-letter-portable-netw-5c7878899969a0.1754724515513990496284.jpg"; // Rotes X
+                document.getElementById('icon').alt = "Über 3 Liter";
+            }
+
+            document.getElementById('result').style.display = 'flex';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Wasserinhalt berechnen</h2>
+            <label for="diameter">Nennweite des Rohres (in DN):</label>
+            <select id="diameter" required>
+                <option value="10">DN10</option>
+                <option value="15">DN15</option>
+                <option value="20">DN20</option>
+                <option value="25">DN25</option>
+                <option value="32">DN32</option>
+                <option value="40">DN40</option>
+                <option value="50">DN50</option>
+                <option value="65">DN65</option>
+                <option value="80">DN80</option>
+                <option value="100">DN100</option>
+                <option value="125">DN125</option>
+                <option value="150">DN150</option>
+            </select>
+            
+            <label for="length">Länge des Rohres (in Metern):</label>
+            <input type="number" id="length" required>
+            
+            <button onclick="calculateWaterContent()">Berechnen</button>
+            
+            <div id="result" class="result-section" style="display: none;">
+                <p id="waterContent"></p>
+                <img id="icon" class="icon" src="" alt="">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
