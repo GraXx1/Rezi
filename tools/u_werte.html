@@ -75,16 +75,89 @@
                 "massiv": { "1918": 2.1, "1948": 2.1, "1957": 2.1, "1968": 2.1, "1978": 0.60, "1983": 0.60, "1994": 0.30, "2001": 0.30, "2002": 0.20 },
                 "holz": { "1918": 1.0, "1948": 1.0, "1957": 0.80, "1968": 0.70, "1978": 0.60, "1983": 0.40, "1994": 0.30, "2001": 0.30, "2002": 0.20 }
             },
-            "aussenwand": {
-                "massiv": { "1918": 2.8, "1948": 2.8, "1957": 2.8, "1968": 1.8, "1978": 1.8, "1983": 1.8, "1994": 0.60, "2001": 0.50, "2002": 0.40 }
+            "aussenwand_massiv": {
+                "zweischalige_ohne_daemmung": { "1918": 1.3, "1948": 1.3, "1957": 1.3, "1968": 1.4, "1978": 1.0, "1983": 0.80, "1994": 0.60, "2001": 0.50, "2002": 0.40 },
+                "zweischalige_mit_daemmung": { "1949": 1.0, "1958": 0.90, "1969": 0.90, "1979": 0.70, "1984": 0.50, "1995": 0.50, "2002": 0.40 },
+                "vollziegel": { "1918": 2.8, "1948": 2.8, "1957": 2.8 },
+                "hochlochziegel": { "1918": 1.4, "1948": 1.4, "1957": 1.4, "1968": 1.4, "1978": 1.0, "1983": 0.80, "1994": 0.60, "2001": 0.50, "2002": 0.40 },
+                "sonstige_bis_20cm": { "1918": 3.0, "1948": 3.0, "1957": 3.0, "1968": 1.4, "1978": 1.0, "1983": 0.80, "1994": 0.70, "2001": 0.70, "2002": 0.40 },
+                "sonstige_ueber_20cm": { "1918": 2.2, "1948": 2.2, "1957": 2.2, "1968": 1.4, "1978": 1.0, "1983": 0.80, "1994": 0.60, "2001": 0.50, "2002": 0.40 }
+            },
+            "aussenwand_holz": {
+                "massivholz": { "1918": 0.50, "1948": 0.50, "1957": 0.50, "1968": 0.50, "1978": 0.50, "1983": 0.50, "1994": 0.40, "2001": 0.40, "2002": 0.30 },
+                "fachwerk_lehm": { "1918": 1.5, "1948": 1.5, "1957": 1.5 },
+                "fachwerk_vollziegel": { "1918": 2.0, "1948": 2.0, "1957": 2.0 },
+                "sonstige_holz": { "1918": 2.0, "1948": 2.0, "1957": 1.5, "1968": 1.4, "1978": 0.60, "1983": 0.50, "1994": 0.40, "2001": 0.40, "2002": 0.30 }
+            },
+            "kellerdecke_boden": {
+                "stahlbeton_massiv": { "1918": 1.6, "1948": 1.6, "1957": 2.3, "1968": 1.0, "1978": 1.0, "1983": 0.80, "1994": 0.60, "2001": 0.60, "2002": 0.50 },
+                "holzbalkendecke": { "1918": 1.0, "1948": 1.0, "1957": 1.0, "1968": 0.80, "1978": 0.60, "1983": 0.60, "1994": 0.40, "2001": 0.40, "2002": 0.40 },
+                "ziegel_hohlsteinkonstruktion": { "1918": 1.2, "1948": 1.2, "1957": 1.5, "1968": 1.0, "1978": 1.0, "1983": 0.80, "1994": 0.60, "2001": 0.60, "2002": 0.50 },
+                "boden_stahlbeton_massiv": { "1918": 1.6, "1948": 1.6, "1957": 2.3, "1968": 1.2, "1978": 1.2, "1983": 0.80, "1994": 0.60, "2001": 0.60, "2002": 0.50 },
+                "boden_ziegel_holzkonstruktion": { "1918": 1.2, "1948": 1.2, "1957": 1.5, "1968": 1.0, "1978": 1.0, "1983": 0.80, "1994": 0.60 },
+                "boden_hohlraum_holzkonstruktion": { "1918": 1.8, "1948": 1.8, "1957": 1.0, "1968": 0.80, "1978": 0.60, "1983": 0.60, "1994": 0.40, "2001": 0.40 }
+            },
+            "rollladenkasten": {
+                "ungedaemmt": { "1918": 3.6, "1948": 3.6, "1957": 3.6, "1968": 3.6, "1978": 3.6, "1983": 3.6 },
+                "gedaemmt": { "1918": 2.2, "1948": 2.2, "1957": 2.2, "1968": 1.8, "1978": 1.8, "1983": 1.8, "1994": 1.5, "2001": 1.4, "2002": 0.85 }
+            },
+            "fenster": {
+                "holz_einfach": { "1978": 5.0 },
+                "holz_zwei_scheiben": { "1918": 2.7, "1948": 2.7, "1957": 2.7, "1968": 2.7, "1978": 2.7, "1983": 2.7, "1994": 1.6, "2001": 1.5 },
+                "kunststoff_isolierverglasung": { "1918": 3.0, "1948": 3.0, "1957": 3.0, "1968": 3.0, "1978": 3.0, "1983": 3.0, "1994": 1.9, "2001": 1.5 },
+                "aluminium_isolierverglasung": { "1918": 4.3, "1948": 4.3, "1957": 3.2, "1968": 3.2, "1978": 3.2, "1983": 3.2, "1994": 1.9, "2001": 1.5 }
+            },
+            "tueren": {
+                "metall": { "1918": 4.0, "1948": 4.0, "1957": 4.0, "1968": 4.0, "1978": 4.0, "1983": 4.0 },
+                "holz_kunststoff": { "1918": 2.9, "1948": 2.9, "1957": 2.9, "1968": 2.9, "1978": 2.9, "1983": 2.9 }
             }
         };
 
+        function updateConstructionOptions() {
+            const part = document.getElementById('part').value;
+            const constructionSelect = document.getElementById('construction');
+            constructionSelect.innerHTML = '';
+
+            if (part === 'aussenwand') {
+                const subPart = document.querySelector('input[name="aussenwand_type"]:checked').value;
+                const constructions = Object.keys(uValues[`aussenwand_${subPart}`]);
+                constructions.forEach(construction => {
+                    const option = document.createElement('option');
+                    option.value = construction;
+                    option.text = construction.replace(/_/g, ' ');
+                    constructionSelect.appendChild(option);
+                });
+            } else {
+                const constructions = Object.keys(uValues[part]);
+                constructions.forEach(construction => {
+                    const option = document.createElement('option');
+                    option.value = construction;
+                    option.text = construction.replace(/_/g, ' ');
+                    constructionSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updatePartOptions() {
+            const partSelect = document.getElementById('part');
+            const selectedPart = partSelect.value;
+            const aussenwandOptions = document.getElementById('aussenwand-options');
+            if (selectedPart === 'aussenwand') {
+                aussenwandOptions.style.display = 'block';
+            } else {
+                aussenwandOptions.style.display = 'none';
+            }
+            updateConstructionOptions();
+        }
+
         function calculateUValue() {
             const year = parseInt(document.getElementById('year').value);
-            const part = document.getElementById('part').value;
+            let part = document.getElementById('part').value;
+            if (part === 'aussenwand') {
+                part = `${part}_${document.querySelector('input[name="aussenwand_type"]:checked').value}`;
+            }
             const construction = document.getElementById('construction').value;
-            
+
             let yearKey;
             if (year <= 1918) yearKey = "1918";
             else if (year <= 1948) yearKey = "1948";
@@ -110,18 +183,26 @@
             <input type="number" id="year" required>
             
             <label for="part">Bauteil:</label>
-            <select id="part" required>
+            <select id="part" onchange="updatePartOptions()" required>
                 <option value="dach">Dach</option>
                 <option value="oberste_geschossdecke">Oberste Geschossdecke</option>
                 <option value="aussenwand">Außenwand</option>
+                <option value="kellerdecke_boden">Kellerdecke/Boden</option>
+                <option value="rollladenkasten">Rollladenkasten</option>
+                <option value="fenster">Fenster/Fenstertüren</option>
+                <option value="tueren">Türen</option>
                 <!-- Add other parts here -->
             </select>
+
+            <div id="aussenwand-options" style="display: none;">
+                <label>Typ der Außenwand:</label>
+                <label><input type="radio" name="aussenwand_type" value="massiv" onchange="updateConstructionOptions()" checked> Massiv</label>
+                <label><input type="radio" name="aussenwand_type" value="holz" onchange="updateConstructionOptions()"> Holz</label>
+            </div>
             
             <label for="construction">Konstruktionsart:</label>
             <select id="construction" required>
-                <option value="massiv">Massive Konstruktion</option>
-                <option value="holz">Holzkonstruktion</option>
-                <!-- Add other construction types here -->
+                <!-- Options will be populated dynamically -->
             </select>
             
             <button onclick="calculateUValue()">Berechnen</button>
