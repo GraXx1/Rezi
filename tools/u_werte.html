@@ -12,7 +12,7 @@
             padding: 0;
         }
         .container { 
-            max-width: 1000px; 
+            max-width: 800px; 
             margin: auto; 
             padding: 20px; 
             display: flex; 
@@ -33,7 +33,7 @@
             font-weight: bold;
         }
         input, select { 
-            width: calc(100% - 22px); 
+            width: 100%; 
             padding: 10px; 
             margin-bottom: 10px; 
             border: 1px solid #ccc;
@@ -229,7 +229,12 @@
             document.getElementById('minUValue').textContent = `Mindest-U-Wert bei baulichen Veränderungen (>10%): ${minUValue} W/(m²·K)`;
         }
 
-        document.addEventListener('DOMContentLoaded', updatePartOptions);
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePartOptions();
+            document.getElementById('part').addEventListener('change', updatePartOptions);
+            document.getElementById('part').addEventListener('change', updateConstructionOptions);
+            document.getElementById('construction').addEventListener('change', updateConstructionOptions);
+        });
     </script>
 </head>
 <body>
@@ -248,7 +253,6 @@
                 <option value="rollladenkasten">Rollladenkasten</option>
                 <option value="fenster">Fenster/Fenstertüren</option>
                 <option value="tueren">Türen</option>
-                <!-- Add other parts here -->
             </select>
 
             <div id="aussenwand-options" class="aussenwand-options" style="display: none;">
@@ -277,7 +281,7 @@
                 <p>Datenquelle: <a href="https://www.bundesanzeiger.de/pub/publication/qzQUGd8A3unSCCbVMcf?0" target="_blank">Bundesanzeiger</a></p>
             </div>
             <div class="version">
-                Version V0.002
+                Version V0.003
             </div>
         </div>
     </div>
