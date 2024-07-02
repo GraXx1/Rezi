@@ -64,6 +64,17 @@
             margin: 0;
             font-size: 1.2em;
         }
+        .aussenwand-options {
+            margin-top: 10px;
+        }
+        .aussenwand-options label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .aussenwand-options input[type="radio"] {
+            margin-right: 10px;
+        }
     </style>
     <script>
         const uValues = {
@@ -194,10 +205,9 @@
                 <!-- Add other parts here -->
             </select>
 
-            <div id="aussenwand-options" style="display: none;">
-                <label>Typ der Außenwand:</label>
-                <label><input type="radio" name="aussenwand_type" value="massiv" onchange="updateConstructionOptions()" checked> Massiv</label>
-                <label><input type="radio" name="aussenwand_type" value="holz" onchange="updateConstructionOptions()"> Holz</label>
+            <div id="aussenwand-options" class="aussenwand-options" style="display: none;">
+                <label><input type="radio" name="aussenwand_type" value="massiv" onchange="updateConstructionOptions()" checked> Außenwand massive Konstruktion (auch Wände zum Erdreich oder zu unbeheizten (Keller-) Räumen)</label>
+                <label><input type="radio" name="aussenwand_type" value="holz" onchange="updateConstructionOptions()"> Außenwand Holzkonstruktion (Fachwerk, Fertighaus oder ähnlich)</label>
             </div>
             
             <label for="construction">Konstruktionsart:</label>
