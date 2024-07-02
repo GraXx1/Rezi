@@ -57,7 +57,7 @@
         .result-section {
             margin-top: 20px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 10px;
         }
         .result-section p {
@@ -143,6 +143,16 @@
             }
         };
 
+        const minUValues = {
+            "dach": 0.24,
+            "oberste_geschossdecke": 0.24,
+            "aussenwand": 0.24,
+            "fenster": 1.3,
+            "tueren": 1.8,
+            "kellerdecke_boden": 0.30,
+            "rollladenkasten": 0.85
+        };
+
         function updateConstructionOptions() {
             const part = document.getElementById('part').value;
             const constructionSelect = document.getElementById('construction');
@@ -184,7 +194,7 @@
             const year = parseInt(document.getElementById('year').value);
             let part = document.getElementById('part').value;
             if (part === 'aussenwand') {
-                part = `${part}_${document.querySelector('input[name="aussenwand_type"]:checked').value}`;
+                part = `${part}_${document.querySelector('input[name="aussenwand_type"]:checked`).value}`;
             }
             const construction = document.getElementById('construction').value;
 
@@ -200,8 +210,10 @@
             else yearKey = "2002";
 
             const uValue = uValues[part][construction][yearKey] || 'Keine Daten verfügbar';
+            const minUValue = minUValues[part] || 'Keine Daten verfügbar';
             
             document.getElementById('uValue').textContent = `U-Wert: ${uValue} W/(m²·K)`;
+            document.getElementById('minUValue').textContent = `Mindest-U-Wert bei baulichen Veränderungen (>10%): ${minUValue} W/(m²·K)`;
         }
     </script>
 </head>
@@ -240,6 +252,7 @@
             
             <div id="result" class="result-section">
                 <p id="uValue"></p>
+                <p id="minUValue"></p>
             </div>
             
             <div class="source">
