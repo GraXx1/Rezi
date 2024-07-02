@@ -66,21 +66,38 @@
         }
     </style>
     <script>
-        function calculateUValue() {
-            const constructionType = document.getElementById('constructionType').value;
-            const year = document.getElementById('year').value;
-            let uValue;
-
-            // Add logic to determine U-value based on construction type and year
-            // For simplicity, this example only includes a few cases
-            if (constructionType === 'dach_holz' && year === '1980') {
-                uValue = 0.7;
-            } else if (constructionType === 'dach_massiv' && year === '1980') {
-                uValue = 1.3;
-            } else {
-                uValue = 'Keine Daten verfügbar';
+        const uValues = {
+            "dach": {
+                "massiv": { "1918": 2.1, "1948": 2.1, "1957": 2.1, "1968": 1.3, "1978": 1.3, "1983": 0.60, "1994": 0.40, "2001": 0.30, "2002": 0.20 },
+                "holz": { "1918": 2.6, "1948": 1.4, "1957": 1.4, "1968": 1.4, "1978": 0.80, "1983": 0.70, "1994": 0.50, "2001": 0.30, "2002": 0.20 }
+            },
+            "oberste_geschossdecke": {
+                "massiv": { "1918": 2.1, "1948": 2.1, "1957": 2.1, "1968": 2.1, "1978": 0.60, "1983": 0.60, "1994": 0.30, "2001": 0.30, "2002": 0.20 },
+                "holz": { "1918": 1.0, "1948": 1.0, "1957": 0.80, "1968": 0.70, "1978": 0.60, "1983": 0.40, "1994": 0.30, "2001": 0.30, "2002": 0.20 }
+            },
+            "aussenwand": {
+                "massiv": { "1918": 2.8, "1948": 2.8, "1957": 2.8, "1968": 1.8, "1978": 1.8, "1983": 1.8, "1994": 0.60, "2001": 0.50, "2002": 0.40 }
             }
+        };
 
+        function calculateUValue() {
+            const year = parseInt(document.getElementById('year').value);
+            const part = document.getElementById('part').value;
+            const construction = document.getElementById('construction').value;
+            
+            let yearKey;
+            if (year <= 1918) yearKey = "1918";
+            else if (year <= 1948) yearKey = "1948";
+            else if (year <= 1957) yearKey = "1957";
+            else if (year <= 1968) yearKey = "1968";
+            else if (year <= 1978) yearKey = "1978";
+            else if (year <= 1983) yearKey = "1983";
+            else if (year <= 1994) yearKey = "1994";
+            else if (year <= 2001) yearKey = "2001";
+            else yearKey = "2002";
+
+            const uValue = uValues[part][construction][yearKey] || 'Keine Daten verfügbar';
+            
             document.getElementById('uValue').textContent = `U-Wert: ${uValue} W/(m²·K)`;
         }
     </script>
@@ -89,17 +106,22 @@
     <div class="container">
         <div class="form-container">
             <h2>U-Werte Berechnung</h2>
-            <label for="constructionType">Konstruktionstyp:</label>
-            <select id="constructionType" required>
-                <option value="dach_holz">Dach (Holzkonstruktion)</option>
-                <option value="dach_massiv">Dach (Massive Konstruktion)</option>
-                <!-- Add other construction types here -->
+            <label for="year">Baujahr:</label>
+            <input type="number" id="year" required>
+            
+            <label for="part">Bauteil:</label>
+            <select id="part" required>
+                <option value="dach">Dach</option>
+                <option value="oberste_geschossdecke">Oberste Geschossdecke</option>
+                <option value="aussenwand">Außenwand</option>
+                <!-- Add other parts here -->
             </select>
             
-            <label for="year">Baujahr:</label>
-            <select id="year" required>
-                <option value="1980">1980</option>
-                <!-- Add other years here -->
+            <label for="construction">Konstruktionsart:</label>
+            <select id="construction" required>
+                <option value="massiv">Massive Konstruktion</option>
+                <option value="holz">Holzkonstruktion</option>
+                <!-- Add other construction types here -->
             </select>
             
             <button onclick="calculateUValue()">Berechnen</button>
