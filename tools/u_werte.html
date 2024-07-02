@@ -67,12 +67,16 @@
         .aussenwand-options {
             margin-top: 10px;
         }
-        .aussenwand-options label {
+        .aussenwand-options .radio-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .radio-group label {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-        .aussenwand-options input[type="radio"] {
+        .radio-group input[type="radio"] {
             margin-right: 10px;
         }
     </style>
@@ -206,8 +210,10 @@
             </select>
 
             <div id="aussenwand-options" class="aussenwand-options" style="display: none;">
-                <label><input type="radio" name="aussenwand_type" value="massiv" onchange="updateConstructionOptions()" checked> Außenwand massive Konstruktion (auch Wände zum Erdreich oder zu unbeheizten (Keller-) Räumen)</label>
-                <label><input type="radio" name="aussenwand_type" value="holz" onchange="updateConstructionOptions()"> Außenwand Holzkonstruktion (Fachwerk, Fertighaus oder ähnlich)</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="aussenwand_type" value="massiv" onchange="updateConstructionOptions()" checked> Außenwand massive Konstruktion (auch Wände zum Erdreich oder zu unbeheizten (Keller-) Räumen)</label>
+                    <label><input type="radio" name="aussenwand_type" value="holz" onchange="updateConstructionOptions()"> Außenwand Holzkonstruktion (Fachwerk, Fertighaus oder ähnlich)</label>
+                </div>
             </div>
             
             <label for="construction">Konstruktionsart:</label>
