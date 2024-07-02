@@ -12,7 +12,7 @@
             padding: 0;
         }
         .container { 
-            max-width: 1200px; 
+            max-width: 800px; 
             margin: auto; 
             padding: 20px; 
             display: flex; 
@@ -24,8 +24,6 @@
             margin-top: 20px;
         }
         .form-container { 
-            flex: 1; 
-            padding: 20px; 
             width: 100%;
         }
         input, select { 
@@ -70,6 +68,7 @@
         .aussenwand-options .radio-group {
             display: flex;
             flex-direction: column;
+            margin-top: 10px;
         }
         .radio-group label {
             display: flex;
@@ -95,7 +94,7 @@
             margin-top: 10px;
         }
         .version {
-            margin-top: 20px;
+            margin-top: 10px;
             text-align: center;
             font-size: 0.9em;
             color: #666;
@@ -226,7 +225,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             updatePartOptions();
             document.getElementById('part').addEventListener('change', updatePartOptions);
-            document.getElementById('construction').addEventListener('change', updateConstructionOptions);
         });
     </script>
 </head>
@@ -274,7 +272,7 @@
                 <p>Datenquelle: <a href="https://www.bundesanzeiger.de/pub/publication/qzQUGd8A3unSCCbVMcf?0" target="_blank">Bundesanzeiger</a></p>
             </div>
             <div class="version">
-                Version V0.02
+                Version V0.03
             </div>
         </div>
     </div>
