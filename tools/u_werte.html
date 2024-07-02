@@ -12,7 +12,7 @@
             padding: 0;
         }
         .container { 
-            max-width: 1200px; 
+            max-width: 1000px; 
             margin: auto; 
             padding: 20px; 
             display: flex; 
@@ -24,17 +24,22 @@
             margin-top: 20px;
         }
         .form-container { 
-            flex: 1; 
-            padding: 20px; 
             width: 100%;
         }
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
         input, select { 
-            width: 100%; 
+            width: calc(100% - 22px); 
             padding: 10px; 
-            margin: 10px 0; 
+            margin-bottom: 10px; 
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            font-size: 16px;
         }
         button { 
             padding: 10px; 
@@ -70,6 +75,7 @@
         .aussenwand-options .radio-group {
             display: flex;
             flex-direction: column;
+            margin-top: 10px;
         }
         .radio-group label {
             display: flex;
@@ -271,7 +277,7 @@
                 <p>Datenquelle: <a href="https://www.bundesanzeiger.de/pub/publication/qzQUGd8A3unSCCbVMcf?0" target="_blank">Bundesanzeiger</a></p>
             </div>
             <div class="version">
-                Version V0.001
+                Version V0.002
             </div>
         </div>
     </div>
