@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berechnung der Voreinstellung Kombi 3 Plus</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            max-width: 150px;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #0072c6;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .nav a:hover {
+            background-color: #e7f3fe;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: auto; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .form-container { 
+            flex: 1; 
+            padding: 20px; 
+            width: 100%;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button { 
+            padding: 10px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover { 
+            background-color: #45a049; 
+        }
+        .images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .images img {
+            max-width: 150px;
+        }
+        h2 { 
+            text-align: center; 
+            color: #333;
+        }
+        h3 {
+            color: #333;
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+        .result-section {
+            margin-top: 20px;
+        }
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .links a {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .links a:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="images">
+            <img src="https://digitalassets.resideo.com/damroot/RDEDesktop/10017/v5010y-ge23cohres.jpg" alt="Strangregulierventil Blau">
+            <img src="https://digitalassets.resideo.com/damroot/RDEDesktop/10017/v5000y-ge23cohres.jpg" alt="Strangregulierventil Rot">
+        </div>
+        <div class="form-container">
+            <h2>Berechnung der Voreinstellung Kombi 3 Plus</h2>
+            <label for="dn">Nennweite (DN):</label>
+            <select id="dn">
+                <option value="DN10">DN10</option>
+                <option value="DN15">DN15</option>
+                <option value="DN20">DN20</option>
+                <option value="DN25">DN25</option>
+                <option value="DN32">DN32</option>
+                <option value="DN40">DN40</option>
+                <option value="DN50">DN50</option>
+            </select>
+            <label for="material">Rohrmaterial:</label>
+            <select id="material">
+                <option value="Kupfer">Kupfer</option>
+                <option value="Aluverbund">Aluverbund</option>
+                <option value="Stahl">Stahl</option>
+            </select>
+            <label for="flow">Volumenstrom (kg/h):</label>
+            <input type="number" id="flow" placeholder="500">
+            <label for="pressure">Druckverlust (mbar):</label>
+            <input type="number" id="pressure" placeholder="100">
+            <button onclick="calculateKv()">Berechnen</button>
+            <div class="result-section">
+                <h3 id="result"></h3>
+                <h3 id="message"></h3>
+                <h3 id="preset"></h3>
+                <h3 id="velocity"></h3>
+                <h3 id="recommendation"></h3>
+            </div>
+        </div>
+        <div class="links">
+            <a href="https://digitalassets.resideo.com/damroot/Original/10018/v5000-v5010-pd-ge0h2300ge25.pdf" target="_blank">Produktdatenblatt</a>
+            <a href="https://digitalassets.resideo.com/damroot/Original/10018/v5000-5010-oi-mu2h0017ge25.pdf" target="_blank">Installationsanleitung</a>
+        </div>
+    </div>
+
+    <script>
+        const kvPresetValues = {
+            "DN10": [
+                { "kv": 0.37, "preset": 0.3 },
+                { "kv": 0.43, "preset": 0.4 },
+                { "kv": 0.46, "preset": 0.5 },
+                { "kv": 0.49, "preset": 0.6 },
+                { "kv": 0.53, "preset": 0.7 },
+                { "kv": 0.57, "preset": 0.8 },
+                { "kv": 0.61, "preset": 0.9 },
+                { "kv": 0.65, "preset": 1.0 },
+                { "kv": 0.69, "preset": 1.1 },
+                { "kv": 0.73, "preset": 1.2 },
+                { "kv": 0.77, "preset": 1.3 },
+                { "kv": 0.81, "preset": 1.4 },
+                { "kv": 0.84, "preset": 1.5 },
+                { "kv": 0.88, "preset": 1.6 },
+                { "kv": 0.91, "preset": 1.7 },
+                { "kv": 0.94, "preset": 1.8 },
+                { "kv": 0.97, "preset": 1.9 },
+                { "kv": 1.00, "preset": 2.0 },
+                { "kv": 1.03, "preset": 2.1 },
+                { "kv": 1.05, "preset": 2.2 },
+                { "kv": 1.08, "preset": 2.3 },
+                { "kv": 1.10, "preset": 2.4 },
+                { "kv": 1.13, "preset": 2.5 },
+                { "kv": 1.16, "preset": 2.6 },
+                { "kv": 1.19, "preset": 2.7 },
+                { "kv": 1.22, "preset": 2.8 },
+                { "kv": 1.26, "preset": 2.9 },
+                { "kv": 1.30, "preset": 3.0 },
+                { "kv": 1.34, "preset": 3.1 },
+                { "kv": 1.39, "preset": 3.2 },
+                { "kv": 1.44, "preset": 3.3 },
+                { "kv": 1.50, "preset": 3.4 },
+                { "kv": 1.56, "preset": 3.5 },
+                { "kv": 1.63, "preset": 3.6 },
+                { "kv": 1.70, "preset": 3.7 },
+                { "kv": 1.77, "preset": 3.8 },
+                { "kv": 1.84, "preset": 3.9 },
+                { "kv": 1.92, "preset": 4.0 },
+                { "kv": 1.99, "preset": 4.1 },
+                { "kv": 2.07, "preset": 4.2 },
+                { "kv": 2.14, "preset": 4.3 },
+                { "kv": 2.21, "preset": 4.4 },
+                { "kv": 2.27, "preset": 4.5 },
+                { "kv": 2.32, "preset": 4.6 },
+                { "kv": 2.36, "preset": 4.7 },
+                { "kv": 2.39, "preset": 4.8 },
+                { "kv": 2.40, "preset": 4.9 }
+            ],
+            "DN15": [
+                { "kv": 0.37, "preset": 0.3 },
+                { "kv": 0.43, "preset": 0.4 },
+                { "kv": 0.46, "preset": 0.5 },
+                { "kv": 0.49, "preset": 0.6 },
+                { "kv": 0.53, "preset": 0.7 },
+                { "kv": 0.57, "preset": 0.8 },
+                { "kv": 0.61, "preset": 0.9 },
+                { "kv": 0.65, "preset": 1.0 },
+                { "kv": 0.69, "preset": 1.1 },
+                { "kv": 0.73, "preset": 1.2 },
+                { "kv": 0.77, "preset": 1.3 },
+                { "kv": 0.81, "preset": 1.4 },
+                { "kv": 0.84, "preset": 1.5 },
+                { "kv": 0.88, "preset": 1.6 },
+                { "kv": 0.91, "preset": 1.7 },
+                { "kv": 0.94, "preset": 1.8 },
+                { "kv": 0.97, "preset": 1.9 },
+                { "kv": 1.00, "preset": 2.0 },
+                { "kv": 1.03, "preset": 2.1 },
+                { "kv": 1.05, "preset": 2.2 },
+                { "kv": 1.08, "preset": 2.3 },
+                { "kv": 1.10, "preset": 2.4 },
+                { "kv": 1.13, "preset": 2.5 },
+                { "kv": 1.16, "preset": 2.6 },
+                { "kv": 1.19, "preset": 2.7 },
+                { "kv": 1.22, "preset": 2.8 },
+                { "kv": 1.26, "preset": 2.9 },
+                { "kv": 1.30, "preset": 3.0 },
+                { "kv": 1.34, "preset": 3.1 },
+                { "kv": 1.39, "preset": 3.2 },
+                { "kv": 1.44, "preset": 3.3 },
+                { "kv": 1.50, "preset": 3.4 },
+                { "kv": 1.56, "preset": 3.5 },
+                { "kv": 1.63, "preset": 3.6 },
+                { "kv": 1.70, "preset": 3.7 },
+                { "kv": 1.77, "preset": 3.8 },
+                { "kv": 1.84, "preset": 3.9 },
+                { "kv": 1.92, "preset": 4.0 },
+                { "kv": 1.99, "preset": 4.1 },
+                { "kv": 2.07, "preset": 4.2 },
+                { "kv": 2.14, "preset": 4.3 },
+                { "kv": 2.21, "preset": 4.4 },
+                { "kv": 2.27, "preset": 4.5 },
+                { "kv": 2.32, "preset": 4.6 },
+                { "kv": 2.36, "preset": 4.7 },
+                { "kv": 2.39, "preset": 4.8 },
+                { "kv": 2.40, "preset": 4.9 }
+            ],
+            "DN20": [
+                { "kv": 0.68, "preset": 0.3 },
+                { "kv": 0.72, "preset": 0.4 },
+                { "kv": 0.84, "preset": 0.6 },
+                { "kv": 0.97, "preset": 0.8 },
+                { "kv": 1.1, "preset": 1.0 },
+                { "kv": 1.3, "preset": 1.2 },
+                { "kv": 1.5, "preset": 1.4 },
+                { "kv": 1.7, "preset": 1.6 },
+                { "kv": 1.9, "preset": 1.8 },
+                { "kv": 2.1, "preset": 2.0 },
+                { "kv": 2.3, "preset": 2.2 },
+                { "kv": 2.5, "preset": 2.4 },
+                { "kv": 2.7, "preset": 2.6 },
+                { "kv": 2.91, "preset": 2.8 },
+                { "kv": 3.12, "preset": 3.0 },
+                { "kv": 3.36, "preset": 3.2 },
+                { "kv": 3.6, "preset": 3.4 },
+                { "kv": 3.86, "preset": 3.6 },
+                { "kv": 4.12, "preset": 3.8 },
+                { "kv": 4.4, "preset": 4.0 },
+                { "kv": 4.69, "preset": 4.2 },
+                { "kv": 4.99, "preset": 4.4 },
+                { "kv": 5.28, "preset": 4.6 },
+                { "kv": 5.57, "preset": 4.8 },
+                { "kv": 5.84, "preset": 5.0 },
+                { "kv": 6.07, "preset": 5.2 },
+                { "kv": 6.26, "preset": 5.4 },
+                { "kv": 6.32, "preset": 5.6 },
+                { "kv": 6.38, "preset": 5.8 },
+                { "kv": 6.4, "preset": 5.9 }
+            ],
+            "DN25": [
+                { "kv": 0.68, "preset": 0.3 },
+                { "kv": 0.72, "preset": 0.4 },
+                { "kv": 0.84, "preset": 0.6 },
+                { "kv": 0.97, "preset": 0.8 },
+                { "kv": 1.1, "preset": 1.0 },
+                { "kv": 1.3, "preset": 1.2 },
+                { "kv": 1.5, "preset": 1.4 },
+                { "kv": 1.7, "preset": 1.6 },
+                { "kv": 1.9, "preset": 1.8 },
+                { "kv": 2.1, "preset": 2.0 },
+                { "kv": 2.3, "preset": 2.2 },
+                { "kv": 2.5, "preset": 2.4 },
+                { "kv": 2.7, "preset": 2.6 },
+                { "kv": 2.95, "preset": 2.8 },
+                { "kv": 3.2, "preset": 3.0 },
+                { "kv": 3.48, "preset": 3.2 },
+                { "kv": 3.76, "preset": 3.4 },
+                { "kv": 4.05, "preset": 3.6 },
+                { "kv": 4.34, "preset": 3.8 },
+                { "kv": 4.64, "preset": 4.0 },
+                { "kv": 4.94, "preset": 4.2 },
+                { "kv": 5.24, "preset": 4.4 },
+                { "kv": 5.52, "preset": 4.6 },
+                { "kv": 5.8, "preset": 4.8 },
+                { "kv": 6.06, "preset": 5.0 },
+                { "kv": 6.3, "preset": 5.2 },
+                { "kv": 6.5, "preset": 5.4 },
+                { "kv": 6.65, "preset": 5.6 },
+                { "kv": 6.75, "preset": 5.8 },
+                { "kv": 6.8, "preset": 5.9 }
+            ],
+            "DN32": [
+                { "kv": 1.4, "preset": 0.5 },
+                { "kv": 1.45, "preset": 0.6 },
+                { "kv": 1.55, "preset": 0.8 },
+                { "kv": 1.6, "preset": 1.0 },
+                { "kv": 2.6, "preset": 1.2 },
+                { "kv": 3.7, "preset": 1.4 },
+                { "kv": 4.8, "preset": 1.6 },
+                { "kv": 5.9, "preset": 1.8 },
+                { "kv": 6.5, "preset": 2.0 },
+                { "kv": 6.9, "preset": 2.2 },
+                { "kv": 7.5, "preset": 2.4 },
+                { "kv": 8.3, "preset": 2.6 },
+                { "kv": 9.2, "preset": 2.8 },
+                { "kv": 10.2, "preset": 3.0 },
+                { "kv": 11.2, "preset": 3.2 },
+                { "kv": 12.2, "preset": 3.4 },
+                { "kv": 13.2, "preset": 3.6 },
+                { "kv": 14.1, "preset": 3.8 },
+                { "kv": 15.0, "preset": 4.0 },
+                { "kv": 15.8, "preset": 4.2 },
+                { "kv": 16.5, "preset": 4.4 },
+                { "kv": 17.1, "preset": 4.6 },
+                { "kv": 17.7, "preset": 4.8 },
+                { "kv": 18.2, "preset": 5.0 },
+                { "kv": 18.6, "preset": 5.2 },
+                { "kv": 19.0, "preset": 5.4 },
+                { "kv": 19.4, "preset": 5.6 },
+                { "kv": 19.7, "preset": 5.8 },
+                { "kv": 20.0, "preset": 6.0 },
+                { "kv": 20.4, "preset": 6.2 },
+                { "kv": 20.8, "preset": 6.4 },
+                { "kv": 21.0, "preset": 6.5 }
+            ],
+            "DN40": [
+                { "kv": 1.4, "preset": 0.5 },
+                { "kv": 1.45, "preset": 0.6 },
+                { "kv": 1.55, "preset": 0.8 },
+                { "kv": 1.6, "preset": 1.0 },
+                { "kv": 2.6, "preset": 1.2 },
+                { "kv": 3.7, "preset": 1.4 },
+                { "kv": 4.8, "preset": 1.6 },
+                { "kv": 5.9, "preset": 1.8 },
+                { "kv": 6.5, "preset": 2.0 },
+                { "kv": 6.9, "preset": 2.2 },
+                { "kv": 7.5, "preset": 2.4 },
+                { "kv": 8.3, "preset": 2.6 },
+                { "kv": 9.2, "preset": 2.8 },
+                { "kv": 10.2, "preset": 3.0 },
+                { "kv": 11.2, "preset": 3.2 },
+                { "kv": 12.2, "preset": 3.4 },
+                { "kv": 13.2, "preset": 3.6 },
+                { "kv": 14.1, "preset": 3.8 },
+                { "kv": 15.0, "preset": 4.0 },
+                { "kv": 15.8, "preset": 4.2 },
+                { "kv": 16.5, "preset": 4.4 },
+                { "kv": 17.1, "preset": 4.6 },
+                { "kv": 17.7, "preset": 4.8 },
+                { "kv": 18.2, "preset": 5.0 },
+                { "kv": 18.6, "preset": 5.2 },
+                { "kv": 19.0, "preset": 5.4 },
+                { "kv": 19.4, "preset": 5.6 },
+                { "kv": 19.7, "preset": 5.8 },
+                { "kv": 20.0, "preset": 6.0 },
+                { "kv": 20.8, "preset": 6.2 },
+                { "kv": 21.6, "preset": 6.4 },
+                { "kv": 22.0, "preset": 6.5 }
+            ],
+            "DN50": [
+                { "kv": 0.8, "preset": 1.0 },
+                { "kv": 1.25, "preset": 1.2 },
+                { "kv": 1.88, "preset": 1.4 },
+                { "kv": 2.72, "preset": 1.6 },
+                { "kv": 3.78, "preset": 1.8 },
+                { "kv": 5.1, "preset": 2.0 },
+                { "kv": 6.68, "preset": 2.2 },
+                { "kv": 8.45, "preset": 2.4 },
+                { "kv": 10.7, "preset": 2.6 },
+                { "kv": 13.0, "preset": 2.8 },
+                { "kv": 15.6, "preset": 3.0 },
+                { "kv": 18.7, "preset": 3.2 },
+                { "kv": 21.0, "preset": 3.4 },
+                { "kv": 22.8, "preset": 3.6 },
+                { "kv": 24.3, "preset": 3.8 },
+                { "kv": 25.4, "preset": 4.0 },
+                { "kv": 26.4, "preset": 4.2 },
+                { "kv": 27.2, "preset": 4.4 },
+                { "kv": 28.0, "preset": 4.6 },
+                { "kv": 28.8, "preset": 4.8 },
+                { "kv": 29.5, "preset": 5.0 },
+                { "kv": 30.2, "preset": 5.2 },
+                { "kv": 31.0, "preset": 5.4 },
+                { "kv": 31.7, "preset": 5.6 },
+                { "kv": 32.4, "preset": 5.8 },
+                { "kv": 33.0, "preset": 6.0 },
+                { "kv": 33.6, "preset": 6.2 },
+                { "kv": 34.1, "preset": 6.4 },
+                { "kv": 34.6, "preset": 6.6 },
+                { "kv": 35.0, "preset": 6.8 },
+                { "kv": 35.4, "preset": 7.0 },
+                { "kv": 35.8, "preset": 7.2 },
+                { "kv": 36.2, "preset": 7.4 },
+                { "kv": 36.8, "preset": 7.6 },
+                { "kv": 38.0, "preset": 7.9 }
+            ]
+        };
+
+        const diameters = {
+            "Kupfer": {
+                "DN10": 8,
+                "DN15": 10.92,
+                "DN20": 16.92,
+                "DN25": 27.2,
+                "DN32": 35.9,
+                "DN40": 41.8,
+                "DN50": 53,
+            },
+            "Aluverbund": {
+                "DN10": 8,
+                "DN15": 10.92,
+                "DN20": 16.92,
+                "DN25": 27.2,
+                "DN32": 35.9,
+                "DN40": 41.8,
+                "DN50": 53,
+            },
+            "Stahl": {
+                "DN10": 8,
+                "DN15": 10.92,
+                "DN20": 16.92,
+                "DN25": 27.2,
+                "DN32": 35.9,
+                "DN40": 41.8,
+                "DN50": 53,
+            }
+        };
+
+        const dnOrder = ["DN10", "DN15", "DN20", "DN25", "DN32", "DN40", "DN50"];
+
+        function findPreset(kv, kvPresetValues) {
+            let closest = kvPresetValues[0];
+            for (let i = 1; i < kvPresetValues.length; i++) {
+                if (Math.abs(kvPresetValues[i].kv - kv) < Math.abs(closest.kv - kv)) {
+                    closest = kvPresetValues[i];
+                }
+            }
+            return closest.preset;
+        }
+
+        function calculateKv() {
+            const dn = document.getElementById('dn').value;
+            const material = document.getElementById('material').value;
+            const flow = parseFloat(document.getElementById('flow').value);
+            const pressure = parseFloat(document.getElementById('pressure').value);
+
+            if (isNaN(flow) || isNaN(pressure)) {
+                document.getElementById('result').innerText = 'Bitte geben Sie gültige Werte ein.';
+                document.getElementById('message').innerText = '';
+                document.getElementById('preset').innerText = '';
+                document.getElementById('velocity').innerText = '';
+                document.getElementById('recommendation').innerText = '';
+                return;
+            }
+
+            const kv = flow / Math.sqrt(pressure / 1000) / 1000;
+            document.getElementById('result').innerText = `Berechneter kv-Wert: ${kv.toFixed(3)}`;
+
+            const kvPresetValuesDn = kvPresetValues[dn];
+
+            if (kv < kvPresetValuesDn[0].kv) {
+                document.getElementById('message').innerText = 'Volumenstrom zu klein';
+                document.getElementById('preset').innerText = '';
+                document.getElementById('velocity').innerText = '';
+                document.getElementById('recommendation').innerText = '';
+            } else if (kv > kvPresetValuesDn[kvPresetValuesDn.length - 1].kv) {
+                document.getElementById('message').innerText = 'Volumenstrom zu groß';
+                document.getElementById('preset').innerText = '';
+                document.getElementById('velocity').innerText = '';
+                document.getElementById('recommendation').innerText = '';
+            } else {
+                const preset = findPreset(kv, kvPresetValuesDn);
+                document.getElementById('preset').innerText = `Voreinstellung: ${preset}`;
+                
+                // Berechne Fließgeschwindigkeit
+                const diameter = diameters[material][dn] / 1000; // Umrechnung von mm in m
+                const area = Math.PI * Math.pow(diameter / 2, 2);
+                const flowInM3s = flow / 3600 / 1000; // Umrechnung von kg/h in m³/s
+                const velocity = flowInM3s / area;
+                document.getElementById('velocity').innerText = `Berechnete Fließgeschwindigkeit: ${velocity.toFixed(3)} m/s`;
+
+                if (velocity > 0.8) {
+                    let nextDnIndex = dnOrder.indexOf(dn) + 1;
+                    let nextDn = null;
+                    let nextKvPresetValues = null;
+                    let nextVelocity = velocity;
+
+                    while (nextDnIndex < dnOrder.length && nextVelocity > 0.8) {
+                        nextDn = dnOrder[nextDnIndex];
+                        nextKvPresetValues = kvPresetValues[nextDn];
+                        const nextDiameter = diameters[material][nextDn] / 1000; // Umrechnung von mm in m
+                        const nextArea = Math.PI * Math.pow(nextDiameter / 2, 2);
+                        nextVelocity = flowInM3s / nextArea;
+                        nextDnIndex++;
+                    }
+
+                    if (nextVelocity <= 0.8) {
+                        const nextPreset = findPreset(kv, nextKvPresetValues);
+                        document.getElementById('recommendation').innerText = `Die empfohlene Fließgeschwindigkeit von 0.8 m/s wird überschritten. Empfohlene Nennweite: ${nextDn}, Voreinstellung: ${nextPreset}, Fließgeschwindigkeit: ${nextVelocity.toFixed(3)} m/s`;
+                    } else {
+                        document.getElementById('recommendation').innerText = 'Keine größere Nennweite verfügbar, die die Fließgeschwindigkeit unter 0.8 m/s hält.';
+                    }
+                } else {
+                    document.getElementById('recommendation').innerText = '';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
